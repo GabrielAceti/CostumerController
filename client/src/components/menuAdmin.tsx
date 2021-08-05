@@ -1,6 +1,7 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { mainListItems, secondaryListItems } from './listMenuAdmin';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -75,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default () => {
+function MenuAdmin(req: any,res: any){
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -86,6 +87,7 @@ export default () => {
     };  
     return(
         <>
+        <CssBaseline />
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
@@ -98,7 +100,7 @@ export default () => {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            {req.title}
           </Typography>          
         </Toolbar>
       </AppBar>
@@ -123,3 +125,5 @@ export default () => {
       </>
     )
 }
+
+export default MenuAdmin;
