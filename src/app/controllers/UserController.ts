@@ -46,7 +46,7 @@ class UserController {
                 row.push(column.value);
             });
 
-            const user = new Users(new Date(row[0].toString()), row[1], row[2], row[3], row[4], row[5])
+            const user = new Users(Number.parseInt(row[0].toString()), new Date(row[5].toString()), row[1], row[6], row[2], row[3], row[4])
             users.push(user);
 
         });
@@ -76,7 +76,7 @@ class UserController {
                 row.push(column.value);
             });
 
-            costumer.push(new Users(new Date(row[0].toString()), row[1], row[2], row[3], row[4], row[5]));
+            costumer.push(new Users(Number.parseInt(row[0].toString()),new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
         });
 
         Connection.execSql(request);
