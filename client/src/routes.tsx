@@ -8,7 +8,7 @@ import Products from './pages/admin/products';
 import ProductsEdit from './pages/admin/products/productsEdit';
 import ProductsRegister from './pages/admin/products/productsRegister';
 
-import Users from './pages/admin/users';
+import Users from './pages/admin/users/index';
 import UsersEdit from './pages/admin/users/userEdit';
 import UsersRegister from './pages/admin/users/userRegister';
 
