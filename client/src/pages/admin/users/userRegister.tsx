@@ -8,6 +8,10 @@ import MenuAdmin from '../../../components/menuAdmin';
 import Copyright from '../../../components/footerAdmin'
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import { useState } from 'react';
+import Button from '@material-ui/core/Button';
+import api from '../../../services/api'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -42,15 +46,55 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-  },
+  }
 }));
 
 export default () => {
   const classes = useStyles();
+
+  const [userName, setUserName] = useState('');
+  const [completedName, setCompletedName] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [passWord, setPassWord] = useState('');
+  const [observation, setObservation] = useState('');  
+
+function validar(){
+
+  if(userName === ''){
+    alert('Please, enter a username!'); 
+    return false;
+  }  
+  if(completedName === ''){
+    alert('Please, enter a completed name!');
+    return false;
+  }
+  if(passWord === ''){
+    alert('Please, enter a password!');
+    return false;
+  }
+
+  return true
+}
+
+  async function submit(){
+    const data = {
+    userName: userName,
+    completedName: completedName,
+    telephone: telephone,
+    passWord: passWord,
+    observation: observation    
+  }
+  
+  if(validar()){
+    const response = await api.post('/user', data);  
+    console.log(response);
+  }
+   
+  }
   return (
     <div className={classes.root}>
-      
-      <MenuAdmin title='USER'/>
+
+      <MenuAdmin title='USER' />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -66,6 +110,8 @@ export default () => {
                     label="User Name"
                     fullWidth
                     autoComplete="user-name"
+                    value={userName}
+                    onChange={e => setUserName(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -76,6 +122,8 @@ export default () => {
                     label="Completed Name"
                     fullWidth
                     autoComplete="given-name"
+                    value={completedName}
+                    onChange={e => setCompletedName(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -86,6 +134,8 @@ export default () => {
                     label="Telephone"
                     fullWidth
                     autoComplete="telephone"
+                    value={telephone}
+                    onChange={e => setTelephone(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -97,8 +147,10 @@ export default () => {
                     label="Password"
                     fullWidth
                     autoComplete="password"
+                    value={passWord}
+                    onChange={e => setPassWord(e.target.value)}
                   />
-                </Grid>               
+                </Grid>
                 <Grid item xs={12} sm={12}>
                   <TextField
                     required
@@ -107,9 +159,16 @@ export default () => {
                     label="Observation"
                     fullWidth
                     autoComplete="observation"
+                    value={observation}
+                    onChange={e => setObservation(e.target.value)}
                   />
                 </Grid>
-              </Grid>        
+                <Grid item xs={12} sm={12}>
+                  <Button variant="contained" color="primary" onClick={submit}>
+                    Save
+                  </Button>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Container>
