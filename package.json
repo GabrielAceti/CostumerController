@@ -6,7 +6,7 @@
   "scripts": {
     "client": "npm start --prefix client",
     "server": "npx ts-node-dev src/Server.ts",
-    "dev": "concurrently \"npm run server\" \"npm run client\""    
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -20,11 +20,14 @@
   },
   "homepage": "https://github.com/GabrielAceti/Api-Sql-Server#readme",
   "dependencies": {
+    "concurrently": "^6.2.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "node": "^16.4.0",
     "tedious": "^11.0.9"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.12",
     "@types/tedious": "^4.0.3",
     "ts-node-dev": "^1.1.7",
