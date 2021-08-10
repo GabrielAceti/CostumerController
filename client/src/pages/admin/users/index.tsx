@@ -113,7 +113,21 @@ export default function UsersList() {
                                                             <TableCell align="right">
                                                                 <ButtonGroup color="secondary" aria-label="outlined secondary button group">
                                                                     <Button color="primary">Edit</Button>
-                                                                    <Button color="secondary">Delete</Button>                                                                    
+                                                                    <Button color="secondary" onClick={async () => {
+                                                                        if(window.confirm("Are you sure you want to delete this user?"))
+                                                                        {
+                                                                            const response: Response = await api.delete(`/user/${row.id}`); 
+                                                                            if(response.status == 200)
+                                                                            {
+                                                                                window.location.reload();
+                                                                            }       
+                                                                            else if(response.status == 400){
+                                                                                alert("An error occurred. Please, try again.")
+                                                                            }                                                                            
+                                                                        }
+                                                                                                                                                
+                                                                    }
+                                                                    }>Delete</Button>
                                                                 </ButtonGroup>
                                                             </TableCell>
                                                         </TableRow>
