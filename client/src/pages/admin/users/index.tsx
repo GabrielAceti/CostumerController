@@ -9,6 +9,7 @@ import MenuAdmin from '../../../components/menuAdmin';
 import Copyright from '../../../components/footerAdmin'
 import Paper from '@material-ui/core/Paper';
 import api from '../../../services/api'
+import User from '../../../assets/models/User'
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -64,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UsersList() {
 
     const classes = useStyles();
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         async function loadUsers() {
@@ -102,7 +103,7 @@ export default function UsersList() {
                                                 </TableHead>
                                                 <TableBody>
                                                     {users.map((row) => (
-                                                        <TableRow key={row.id}>
+                                                        <TableRow >
                                                             <TableCell component="th" scope="row">{row.id}</TableCell>
                                                             <TableCell align="center">{row.userName}</TableCell>
                                                             <TableCell align="center">{row.completedName}</TableCell>

@@ -1,12 +1,12 @@
 export default class Users{
 
-    private id: Number;
-    private date: Date;    
-    private userName: String;
-    private completedName: String;
-    private telephone: String;
-    private passWord: String;
-    private observation: String;
+    public id: Number;
+    public date: Date;    
+    public userName: String;
+    public completedName: String;
+    public telephone: String;
+    public passWord: String;
+    public observation: String;
 
     constructor(id:Number, date: Date, userName: String, completedName: String, telephone: String, passWord: String, observation: String){
         this.id = id;
