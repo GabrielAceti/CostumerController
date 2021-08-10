@@ -28,11 +28,11 @@ function Routes() {
                 <Route path="/admin" exact component={Dashboard}/>
                 <Route path="/admin/products" exact component={Products}/>
                 <Route path="/admin/products/register" exact component={ProductsRegister}/>
-                <Route path="/admin/products/register/:_id" exact component={ProductsEdit}/>
+                <Route path="/admin/products/edit/:_id" exact component={ProductsEdit}/>
                 
                 <Route path="/admin/users" exact component={Users}/>
                 <Route path="/admin/users/register" exact component={UsersRegister}/>
-                <Route path="/admin/users/register/:_id" exact component={UsersEdit}/>
+                <Route path="/admin/users/edit/:_id" exact component={UsersEdit}/>
 
             </Switch>
         </BrowserRouter>

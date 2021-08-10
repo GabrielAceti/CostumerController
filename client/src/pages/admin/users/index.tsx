@@ -70,8 +70,7 @@ export default function UsersList() {
     useEffect(() => {
         async function loadUsers() {
             const response = await api.get('/user');
-            setUsers(response.data);
-            console.log(response);
+            setUsers(response.data);            
         }
         loadUsers();
     }, []);
@@ -112,7 +111,7 @@ export default function UsersList() {
                                                             <TableCell align="center">{new Date(row.date).toLocaleString('pt-br')}</TableCell>
                                                             <TableCell align="right">
                                                                 <ButtonGroup color="secondary" aria-label="outlined secondary button group">
-                                                                    <Button color="primary">Edit</Button>
+                                                                    <Button color="primary" href={`/admin/users/edit/${row.id}`}>Edit</Button>
                                                                     <Button color="secondary" onClick={async () => {
                                                                         if(window.confirm("Are you sure you want to delete this user?"))
                                                                         {

@@ -58,15 +58,15 @@ class UserController {
 
         const { _id } = req.params;
         var row: String[] = [];
-        var costumer: Users[] = [];
+        var user: Users[] = [];
 
-        let request = new TediousRequest(` SELECT * FROM USERS WHERE ID = ${_id}`, (err: any, rowCount: Number) => {
+        let request = new TediousRequest(` SELECT ID, INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD, OBSERVATION FROM USERS WHERE ID = ${_id}`, (err: any, rowCount: Number) => {
 
             if (err) {
                 return res.status(400).json(err);
             }
             else {
-                return res.status(200).json(costumer);
+                return res.status(200).json(user);
             }
         });
 
@@ -76,7 +76,7 @@ class UserController {
                 row.push(column.value);
             });
 
-            costumer.push(new Users(Number.parseInt(row[0].toString()),new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
+            user.push(new Users(Number.parseInt(row[0].toString()),new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
         });
 
         Connection.execSql(request);
