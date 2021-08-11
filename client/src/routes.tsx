@@ -12,6 +12,8 @@ import Users from './pages/admin/users/index';
 import UsersEdit from './pages/admin/users/userEdit';
 import UsersRegister from './pages/admin/users/userRegister';
 
+import Login from './pages/admin/login'
+
 //Imports from client
 import Home from './pages/client/home/index'; 
 import ProductsDetails from './pages/client/products/productsDetails';
@@ -33,6 +35,7 @@ function Routes() {
                 <Route path="/admin/users" exact component={Users}/>
                 <Route path="/admin/users/register" exact component={UsersRegister}/>
                 <Route path="/admin/users/edit/:_id" exact component={UsersEdit}/>
+                <Route path="/admin/users/login" exact component={Login} />
 
             </Switch>
         </BrowserRouter>
