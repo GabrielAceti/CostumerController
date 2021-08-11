@@ -1,9 +1,13 @@
 import Connection from '../../data/Index'
 import { Request, Response } from 'express';
-import Users from '../models/Users'
+import User from '../models/Users'
+import connection from '../../data/Index';
 
+const jwt = require('jsonwebtoken');
 const Tedious = require('tedious');
 const TediousRequest = Tedious.Request;
+
+
 
 class UserController {
 
@@ -27,7 +31,7 @@ class UserController {
     get(req: Request, res: Response) {
 
         var row: String[] = [];
-        var users: Users[] = [];
+        var users: User[] = [];
 
         let request = new TediousRequest("SELECT * FROM USERS", (err: any, rowCount: any) => {
             if (err) {
@@ -46,7 +50,7 @@ class UserController {
                 row.push(column.value);
             });
 
-            const user = new Users(Number.parseInt(row[0].toString()), new Date(row[5].toString()), row[1], row[6], row[2], row[3], row[4])
+            const user = new User(Number.parseInt(row[0].toString()), new Date(row[5].toString()), row[1], row[6], row[2], row[3], row[4])
             users.push(user);
 
         });
@@ -58,7 +62,7 @@ class UserController {
 
         const { _id } = req.params;
         var row: String[] = [];
-        var user: Users[] = [];
+        var user: User[] = [];
 
         let request = new TediousRequest(` SELECT ID, INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD, OBSERVATION FROM USERS WHERE ID = ${_id}`, (err: any, rowCount: Number) => {
 
@@ -76,7 +80,7 @@ class UserController {
                 row.push(column.value);
             });
 
-            user.push(new Users(Number.parseInt(row[0].toString()),new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
+            user.push(new User(Number.parseInt(row[0].toString()),new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
         });
 
         Connection.execSql(request);
@@ -111,6 +115,42 @@ class UserController {
         });
 
         Connection.execSql(request);
+    }
+
+    login(req:Request, res:Response){
+
+        const {userName, passWord} = req.body;
+        let row: String[] = [];
+        let id: Number;
+        const secret: String = "CostumerControllerToken"
+
+        const request = new TediousRequest(`SELECT ID, INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD FROM USERS WHERE USERNAME = '${userName}'`, (err: any, rowCount: Number) => {
+            if(err){
+                res.status(400).json(err);
+            }
+            else{
+                const payload = {userName};
+                const token = jwt.sign(payload, secret, {expiresIn: '3h'});
+                res.cookie('token', token, {httpOnly: true});
+                res.status(200).json({
+                    auth: true,
+                    id: id,
+                    token: token,
+                    userName: userName
+                });
+            }
+        }) 
+
+        request.on('row', (columns: any[]) => {
+
+            columns.forEach((column: {value: any}) => {
+                row.push(column.value);
+            })
+
+            id = Number.parseInt(row[0].toString());           
+        });
+
+        connection.execSql(request);
     }
 
 

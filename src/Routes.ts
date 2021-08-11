@@ -15,6 +15,7 @@ Routes.delete('/costumer/:_id', _CostumerController.delete);
 //User Routes
 Routes.get('/user', _UserController.get);
 Routes.get('/user/:_id', _UserController.getOne);
+Routes.post('/user/login', _UserController.login);
 Routes.post('/user', _UserController.create);
 Routes.put('/user/:_id', _UserController.put);
 Routes.delete('/user/:_id', _UserController.delete);
