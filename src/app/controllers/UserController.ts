@@ -14,7 +14,7 @@ class UserController {
     create(req: Request, res: Response) {
         const date = new Date();
         const inclusionDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-        const { userName, completedName, telephone, passWord, observation } = req.body;        
+        const { userName, completedName, telephone, passWord, observation } = req.body;
 
         let request = new TediousRequest(`INSERT INTO USERS(INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD, OBSERVATION) VALUES('${inclusionDate}', '${userName}', '${completedName}', '${telephone}', '${passWord}', '${observation}')`, (err: any, rowCount: any) => {
             if (err) {
@@ -80,14 +80,14 @@ class UserController {
                 row.push(column.value);
             });
 
-            user.push(new User(Number.parseInt(row[0].toString()),new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
+            user.push(new User(Number.parseInt(row[0].toString()), new Date(row[1].toString()), row[2], row[3], row[4], row[5], row[6]));
         });
 
         Connection.execSql(request);
     }
 
     put(req: Request, res: Response) {
-        const { date, userName, completedName, telephone, passWord, observation} = req.body;
+        const { date, userName, completedName, telephone, passWord, observation } = req.body;
         const { _id } = req.params;
 
         let request = new TediousRequest(`UPDATE USERS SET USERNAME = '${userName}', COMPLETEDNAME = '${completedName}', TELEPHONE = '${telephone}', PASSWORD = '${passWord}',OBSERVATION = '${observation}' WHERE ID = ${_id}`, (err: Error, rowCount: Number) => {
@@ -117,37 +117,51 @@ class UserController {
         Connection.execSql(request);
     }
 
-    login(req:Request, res:Response){
+    login(req: Request, res: Response) {
 
-        const {userName, passWord} = req.body;
+        const { userName, passWord } = req.body;
         let row: String[] = [];
         let id: Number;
         const secret: String = "CostumerControllerToken"
 
-        const request = new TediousRequest(`SELECT ID, INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD FROM USERS WHERE USERNAME = '${userName}'`, (err: any, rowCount: Number) => {
-            if(err){
+        const request = new TediousRequest(`SELECT ID FROM USERS WHERE USERNAME = '${userName}' AND PASSWORD = ${passWord}`, (err: any, rowCount: Number) => {
+            if (err) {
                 res.status(400).json(err);
             }
-            else{
-                const payload = {userName};
-                const token = jwt.sign(payload, secret, {expiresIn: '3h'});
-                res.cookie('token', token, {httpOnly: true});
-                res.status(200).json({
-                    auth: true,
-                    id: id,
-                    token: token,
-                    userName: userName
-                });
+            else {
+
+                if (rowCount > 0) {
+                    const payload = { userName };
+                    const token = jwt.sign(payload, secret, { expiresIn: '3h' });
+                    res.cookie('token', token, { httpOnly: true });
+                    res.status(200).json({
+                        status: 1,
+                        auth: true,
+                        id: id,
+                        token: token,
+                        userName: userName
+                    });
+                }
+                else {
+                    res.status(200).json({
+                        status: 0,
+                        auth: false,
+                        id: null,
+                        token: null,
+                        userName: userName
+                    });
+                }
+
             }
-        }) 
+        })
 
         request.on('row', (columns: any[]) => {
 
-            columns.forEach((column: {value: any}) => {
+            columns.forEach((column: { value: any }) => {
                 row.push(column.value);
             })
 
-            id = Number.parseInt(row[0].toString());           
+            id = Number.parseInt(row[0].toString());
         });
 
         connection.execSql(request);
