@@ -1,6 +1,6 @@
-import react, {useState, useEffect, Component, FC} from 'react';
+import react, {useState, useEffect} from 'react';
 import api from './api';
-import { login, logout, getToken } from './auth';
+import { getToken } from './auth';
 import { Route, Redirect } from 'react-router-dom';
 
 export default function Authentication({component: Component, ...rest}: any){

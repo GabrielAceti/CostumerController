@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -11,10 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import api from '../../../services/api'
 import { useParams } from 'react-router-dom'
-import User from '../../../assets/models/User'
-import { async } from 'q';
-
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
