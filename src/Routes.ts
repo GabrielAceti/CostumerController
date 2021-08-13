@@ -19,6 +19,7 @@ Routes.post('/login', _UserController.login);
 Routes.get('/user', _UserController.get);
 Routes.get('/user/:_id', _UserController.getOne);
 Routes.post('/user/checktoken', _UserController.checkToken);
+Routes.post('/user/clearToken', _UserController.clearToken);
 Routes.post('/user', _UserController.create);
 Routes.put('/user/:_id', _UserController.put);
 Routes.delete('/user/:_id', _UserController.delete);

@@ -7,6 +7,9 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import api from '../services/api';
+import { getToken, logout } from '../services/auth';
+
 
 export const mainListItems = (
   <div>
@@ -34,7 +37,7 @@ export const mainListItems = (
 export const secondaryListItems = (
   <div>
     <ListSubheader inset>Options</ListSubheader>
-    <ListItem button>
+    <ListItem button onClick={leave}>
       <ListItemIcon>
         <ExitToAppIcon />
       </ListItemIcon>
@@ -42,3 +45,17 @@ export const secondaryListItems = (
     </ListItem>    
   </div>
 );
+
+async function leave(){
+  if(window.confirm("Do you want to leave?")){
+    const res = await api.post('/user/clearToken', {token: getToken()});    
+    if(res.status === 200){
+      logout();
+      window.location.href = '/admin/login'
+    }
+    else{
+      alert("Ops... Something went wrong. Please, try again!");
+    }
+
+  }
+}

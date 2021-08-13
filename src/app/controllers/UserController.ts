@@ -172,7 +172,7 @@ class UserController {
         const token = req.body.params;    
        
         if(!token){
-            return res.status(401).json({msg:'Not authorized: Inexistent token'});           
+            res.json({status: 400, msg: 'Not authorized: Inexistent token'})            
         }
         else{
             jwt.verify(token, secret, (err: String, decoded: any) => {
@@ -186,6 +186,17 @@ class UserController {
             })           
             return res
         }
+    }
+
+    clearToken(req: Request, res:Response){
+        const {token} = req.body;       
+        if(token){           
+            res.cookie('token', null, {httpOnly:true})
+        }
+        else{
+            res.status(400);
+        }
+        res.send("Session closed!");
     }
 
 

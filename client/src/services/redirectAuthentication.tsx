@@ -19,8 +19,7 @@ export default function Authentication({component: Component, ...rest}: any){
             else{
                 setLoad(false);
                 setRedirect(true);
-            }
-            console.log(res.data.status);
+            }            
         }
         verify();
         
