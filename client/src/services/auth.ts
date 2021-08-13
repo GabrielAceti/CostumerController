@@ -10,3 +10,5 @@ export const getUserId = () => { localStorage.getItem(USER_ID); }
 
 export const setUserName = (userName: Number) => { localStorage.setItem(USER_NAME, userName.toString()); }
 export const getUserName = () => { localStorage.getItem(USER_NAME); }
+
+export const getToken = () => localStorage.getItem(TOKEN_KEY);

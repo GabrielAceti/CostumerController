@@ -1,5 +1,6 @@
 import React from 'react';
 import  { BrowserRouter, Switch, Route } from 'react-router-dom'
+import PrivateRoute from './services/redirectAuthentication';
 
 //Imports from admin
 import Dashboard from './pages/admin/dashboard'
@@ -23,19 +24,19 @@ function Routes() {
         <BrowserRouter>
             <Switch>
                 {/*Routes for client*/}              
-                <Route path="/" exact component={Home} />
-                <Route path="/products/:_id" exact component={ProductsDetails} />
+                <PrivateRoute path="/" exact component={Home} />
+                <PrivateRoute path="/products/:_id" exact component={ProductsDetails} />
 
                 {/*Routs for admin*/}
-                <Route path="/admin" exact component={Dashboard}/>
-                <Route path="/admin/products" exact component={Products}/>
-                <Route path="/admin/products/register" exact component={ProductsRegister}/>
-                <Route path="/admin/products/edit/:_id" exact component={ProductsEdit}/>
+                <PrivateRoute path="/admin" exact component={Dashboard}/>
+                <PrivateRoute path="/admin/products" exact component={Products}/>
+                <PrivateRoute path="/admin/products/register" exact component={ProductsRegister}/>
+                <PrivateRoute path="/admin/products/edit/:_id" exact component={ProductsEdit}/>
                 
-                <Route path="/admin/users" exact component={Users}/>
-                <Route path="/admin/users/register" exact component={UsersRegister}/>
-                <Route path="/admin/users/edit/:_id" exact component={UsersEdit}/>
-                <Route path="/admin/users/login" exact component={Login} />
+                <PrivateRoute path="/admin/users" exact component={Users}/>
+                <PrivateRoute path="/admin/users/register" exact component={UsersRegister}/>
+                <PrivateRoute path="/admin/users/edit/:_id" exact component={UsersEdit}/>
+                <Route path="/admin/login" exact component={Login} />
 
             </Switch>
         </BrowserRouter>

@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 const Tedious = require('tedious');
 const TediousRequest = Tedious.Request;
 
+const secret: String = "CostumerControllerToken"
+
 
 
 class UserController {
@@ -121,8 +123,7 @@ class UserController {
 
         const { userName, passWord } = req.body;
         let row: String[] = [];
-        let id: Number;
-        const secret: String = "CostumerControllerToken"
+        let id: Number;        
 
         const request = new TediousRequest(`SELECT ID FROM USERS WHERE USERNAME = '${userName}' AND PASSWORD = ${passWord}`, (err: any, rowCount: Number) => {
             if (err) {
@@ -165,6 +166,26 @@ class UserController {
         });
 
         connection.execSql(request);
+    }
+
+    checkToken(req: Request, res: Response){
+        const token = req.body.params;    
+       
+        if(!token){
+            return res.status(401).json({msg:'Not authorized: Inexistent token'});           
+        }
+        else{
+            jwt.verify(token, secret, (err: String, decoded: any) => {
+                if(err){
+                     res.json({status: 400, msg: 'Not authorized: Invalid token'}) 
+                                        
+                }
+                else{
+                     res.json({status: 200, userName: decoded.userName});
+                }
+            })           
+            return res
+        }
     }
 
 

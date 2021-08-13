@@ -84,7 +84,7 @@ export default function SignInSide() {
         }
 
         if (validate()) {
-            await api.post('/user/login', data).then(res => {
+            await api.post('/login', data).then(res => {
                 if (res.status === 200) {
                     if (res.data.status === 1) {
                         login(res.data.token);
