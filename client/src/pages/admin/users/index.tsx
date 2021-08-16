@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 650,
-    },
+    },   
 }));
 
 
@@ -81,6 +81,7 @@ export default function UsersList() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
+                <Button variant="contained" color="primary" href={"/admin/users/register"}>Register</Button>
                     <Grid container spacing={3}>
                         <Grid item sm={12}>
                             <Paper className={classes.paper}>
