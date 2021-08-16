@@ -80,7 +80,7 @@ export default () => {
             alert('Please, enter a completed name!');
             return false;
         }
-        if (passWord === '') {
+        if (passWord ==='') {
             alert('Please, enter a password!');
             return false;
         }
@@ -99,12 +99,12 @@ export default () => {
 
         if (validar()) {
             const response = await api.put(`/user/${_id}`, data);
-            if(response.status == 200)
+            if(response.status === 200)
             {
                 alert("User updated successfully!");
                 window.location.href = '/admin/users'
             }
-            else if (response.status == 400)
+            else if (response.status === 400)
             {
                 alert("An error occurred. Please, try again.")
             }

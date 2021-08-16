@@ -114,11 +114,11 @@ export default function UsersList() {
                                                                         if(window.confirm("Are you sure you want to delete this user?"))
                                                                         {
                                                                             const response: Response = await api.delete(`/user/${row.id}`); 
-                                                                            if(response.status == 200)
+                                                                            if(response.status === 200)
                                                                             {
                                                                                 window.location.reload();
                                                                             }       
-                                                                            else if(response.status == 400){
+                                                                            else if(response.status === 400){
                                                                                 alert("An error occurred. Please, try again.")
                                                                             }                                                                            
                                                                         }

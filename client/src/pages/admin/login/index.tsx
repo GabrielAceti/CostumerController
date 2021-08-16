@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../../services/api'
-import { login, setUserId } from '../../../services/auth';
+import { login, setUserId, setUserName } from '../../../services/auth';
 
 
 function Copyright() {
@@ -61,15 +61,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
     const classes = useStyles();
-    const [userName, setUserName] = useState<String>('');
+    const [username, setUsername] = useState<String>('');
     const [passWord, setPassWord] = useState<String>('');
 
     function validate() {
-        if (userName == '') {
+        if (username === '') {
             alert("Please, enter a username!");
             return false;
         }
-        else if (passWord == '') {
+        else if (passWord === '') {
             alert("Please, enter a password!");
             return false;
         }
@@ -78,7 +78,7 @@ export default function SignInSide() {
 
     async function submit() {
         const data = {
-            userName: userName,
+            userName: username,
             passWord: passWord
         }
 
@@ -88,6 +88,7 @@ export default function SignInSide() {
                     if (res.data.status === 1) {
                         login(res.data.token);
                         setUserId(res.data.id);
+                        setUsername(res.data.userName)
                         setUserName(res.data.userName)
 
                         window.location.href = "/admin"
@@ -127,8 +128,8 @@ export default function SignInSide() {
                         name="username"
                         autoComplete="username"
                         autoFocus
-                        value={userName}
-                        onChange={e => setUserName(e.target.value)}
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
                     />
                     <TextField
                         variant="outlined"

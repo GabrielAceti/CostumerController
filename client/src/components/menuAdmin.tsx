@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
+import { getUserName } from '../services/auth'
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +102,8 @@ function MenuAdmin(req: any,res: any){
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {req.title}
-          </Typography>          
+          </Typography>      
+          { 'User: ' + getUserName }    
         </Toolbar>
       </AppBar>
 

@@ -6,9 +6,9 @@ export const login = (token: String) => { localStorage.setItem(TOKEN_KEY, token.
 export const logout = () => { localStorage.clear(); }
 
 export const setUserId = (id: Number) => { localStorage.setItem(USER_ID, id.toString()); }
-export const getUserId = () => { localStorage.getItem(USER_ID); }
+export const getUserId = localStorage.getItem(USER_ID); 
 
-export const setUserName = (userName: Number) => { localStorage.setItem(USER_NAME, userName.toString()); }
-export const getUserName = () => { localStorage.getItem(USER_NAME); }
+export const setUserName = (userName: String) => { localStorage.setItem(USER_NAME, userName.toString()); }
+export const getUserName = localStorage.getItem(USER_NAME); 
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
