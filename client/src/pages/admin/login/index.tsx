@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
     const classes = useStyles();
+    const [load, setLoad] = useState<boolean>(false);
     const [username, setUsername] = useState<String>('');
     const [passWord, setPassWord] = useState<String>('');
 
@@ -83,6 +84,7 @@ export default function SignInSide() {
         }
 
         if (validate()) {
+            setLoad(true);
             await api.post('/login', data).then(res => {
                 if (res.status === 200) {
                     if (res.data.status === 1) {
@@ -90,15 +92,14 @@ export default function SignInSide() {
                         setUserId(res.data.id);
                         setUsername(res.data.userName)
                         setUserName(res.data.userName)
-
+                        setLoad(false);
                         window.location.href = "/admin"
                     }
-                    else {
-
-                    }
+                    
                 }
                 else {
                     alert("Something happened. Please, try again.")
+                    setLoad(false);
                 }
             });
 
@@ -151,8 +152,9 @@ export default function SignInSide() {
                         color="primary"
                         className={classes.submit}
                         onClick={submit}
-                    >
-                        Sign In
+                        disabled={load}
+                    >                        
+                        {load?<CircularProgress />:'Sign In'}
                     </Button>
                     <Grid container>
                         <Grid item>
