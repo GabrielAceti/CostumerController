@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import api from '../../../services/api'
+import { ButtonGroup } from '@material-ui/core';
 
 
 
@@ -85,8 +86,14 @@ function validar(){
   }
   
   if(validar()){
-    const response = await api.post('/user', data);  
-    console.log(response);
+    await api.post('/user', data).then((value) => {
+      if(value.status === 200){
+        window.location.href = "/admin/users";
+      }
+      else{
+        alert("Something happened. Please, try again.")
+      }
+    });    
   }
    
   }
@@ -163,9 +170,15 @@ function validar(){
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <Button variant="contained" color="primary" onClick={submit}>
+                <ButtonGroup color="secondary" aria-label="outlined secondary button group">
+                <Button variant="contained" color="primary" onClick={submit}>
                     Save
                   </Button>
+                  <Button variant="contained" color="secondary" href="/admin/users">
+                    Cancel
+                  </Button>
+                </ButtonGroup>
+                  
                 </Grid>
               </Grid>
             </Paper>
