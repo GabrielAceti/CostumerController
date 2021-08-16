@@ -2,6 +2,7 @@ import react, {useState, useEffect} from 'react';
 import api from './api';
 import { getToken } from './auth';
 import { Route, Redirect } from 'react-router-dom';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 export default function Authentication({component: Component, ...rest}: any){
     const [redirect, setRedirect] = useState(false);
@@ -26,7 +27,7 @@ export default function Authentication({component: Component, ...rest}: any){
     }, [])
 
     return(       
-            load?<div>'Loading...'</div>:<Route { ...rest}
+            load?<div><LinearProgress /></div>:<Route { ...rest}
         render={props => !redirect?(
             <Component { ...props } />
         ):<Redirect to={{pathname: '/admin/login', state:{from: props.location}}} />
