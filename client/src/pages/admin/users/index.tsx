@@ -18,6 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { LinearProgress } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,12 +64,13 @@ const useStyles = makeStyles((theme) => ({
 export default function UsersList() {
 
     const classes = useStyles();
+    const [load, setLoad] = useState<boolean>(false);
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         async function loadUsers() {
             const response = await api.get('/user');
-            setUsers(response.data);            
+            setUsers(response.data);
         }
         loadUsers();
     }, []);
@@ -86,51 +88,55 @@ export default function UsersList() {
                                 <Grid container spacing={3}>
                                     <Grid item xs={12} sm={12}>
                                         <TableContainer component={Paper}>
-                                            <Table className={classes.table} size="small" aria-label="a dense table">
-                                                <TableHead>
-                                                    <TableRow>
-                                                        <TableCell>Id</TableCell>
-                                                        <TableCell align="center">Username</TableCell>
-                                                        <TableCell align="center">Completedname</TableCell>
-                                                        <TableCell align="center">Telephone</TableCell>
-                                                        <TableCell align="center">Observation</TableCell>
-                                                        <TableCell align="center">Created At</TableCell>
-                                                        <TableCell align="center">Options</TableCell>
-                                                    </TableRow>
-                                                </TableHead>
-                                                <TableBody>
-                                                    {users.map((row) => (
-                                                        <TableRow >
-                                                            <TableCell component="th" scope="row">{row.id}</TableCell>
-                                                            <TableCell align="center">{row.userName}</TableCell>
-                                                            <TableCell align="center">{row.completedName}</TableCell>
-                                                            <TableCell align="center">{row.telephone}</TableCell>
-                                                            <TableCell align="center">{row.observation}</TableCell>
-                                                            <TableCell align="center">{new Date(row.date).toLocaleString('pt-br')}</TableCell>
-                                                            <TableCell align="right">
-                                                                <ButtonGroup color="secondary" aria-label="outlined secondary button group">
-                                                                    <Button color="primary" href={`/admin/users/edit/${row.id}`}>Edit</Button>
-                                                                    <Button color="secondary" onClick={async () => {
-                                                                        if(window.confirm("Are you sure you want to delete this user?"))
-                                                                        {
-                                                                            const response: Response = await api.delete(`/user/${row.id}`); 
-                                                                            if(response.status === 200)
-                                                                            {
-                                                                                window.location.reload();
-                                                                            }       
-                                                                            else if(response.status === 400){
-                                                                                alert("An error occurred. Please, try again.")
-                                                                            }                                                                            
-                                                                        }
-                                                                                                                                                
-                                                                    }
-                                                                    }>Delete</Button>
-                                                                </ButtonGroup>
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
+                                            {
+                                                load ? (<LinearProgress />) : (
+                                                    <Table className={classes.table} size="small" aria-label="a dense table">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell>Id</TableCell>
+                                                                <TableCell align="center">Username</TableCell>
+                                                                <TableCell align="center">Completedname</TableCell>
+                                                                <TableCell align="center">Telephone</TableCell>
+                                                                <TableCell align="center">Observation</TableCell>
+                                                                <TableCell align="center">Created At</TableCell>
+                                                                <TableCell align="center">Options</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+                                                            {users.map((row) => (
+                                                                <TableRow >
+                                                                    <TableCell component="th" scope="row">{row.id}</TableCell>
+                                                                    <TableCell align="center">{row.userName}</TableCell>
+                                                                    <TableCell align="center">{row.completedName}</TableCell>
+                                                                    <TableCell align="center">{row.telephone}</TableCell>
+                                                                    <TableCell align="center">{row.observation}</TableCell>
+                                                                    <TableCell align="center">{new Date(row.date).toLocaleString('pt-br')}</TableCell>
+                                                                    <TableCell align="right">
+                                                                        <ButtonGroup color="secondary" aria-label="outlined secondary button group">
+                                                                            <Button color="primary" href={`/admin/users/edit/${row.id}`}>Edit</Button>
+                                                                            <Button color="secondary" onClick={async () => {
+                                                                                if (window.confirm("Are you sure you want to delete this user?")) {
+                                                                                    const response: Response = await api.delete(`/user/${row.id}`);
+                                                                                    if (response.status === 200) {
+                                                                                        window.location.reload();
+                                                                                    }
+                                                                                    else if (response.status === 400) {
+                                                                                        alert("An error occurred. Please, try again.")
+                                                                                    }
+                                                                                }
+
+                                                                            }
+                                                                            }>Delete</Button>
+                                                                        </ButtonGroup>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            ))}
+                                                        </TableBody>
+                                                    </Table>
+                                                )
+
+                                            }
+
                                         </TableContainer>
                                     </Grid>
                                 </Grid>
