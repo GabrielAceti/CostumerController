@@ -2,7 +2,7 @@ import Connection from '../../data/Index'
 import { Request, Response } from 'express';
 import User from '../models/Users'
 import connection from '../../data/Index';
-
+import bcrypt from 'bcrypt';
 const jwt = require('jsonwebtoken');
 const Tedious = require('tedious');
 const TediousRequest = Tedious.Request;
@@ -18,16 +18,19 @@ class UserController {
         const inclusionDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
         const { userName, completedName, telephone, passWord, observation } = req.body;
 
-        let request = new TediousRequest(`INSERT INTO USERS(INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD, OBSERVATION) VALUES('${inclusionDate}', '${userName}', '${completedName}', '${telephone}', '${passWord}', '${observation}')`, (err: any, rowCount: any) => {
-            if (err) {
-                return res.status(400).json(err);
-            }
-            else {
-                return res.status(200).json("Sucessful");
-            }
+        bcrypt.hash(passWord, 10, (err, hash) => {
+            let request = new TediousRequest(`INSERT INTO USERS(INCLUSIONDATE, USERNAME, COMPLETEDNAME, TELEPHONE, PASSWORD, OBSERVATION) VALUES('${inclusionDate}', '${userName}', '${completedName}', '${telephone}', '${hash}', '${observation}')`, (err: any, rowCount: any) => {
+                if (err) {
+                    return res.status(400).json(err);
+                }
+                else {
+                    return res.status(200).json("Sucessful");
+                }
+            });
+    
+            Connection.execSql(request);
         });
-
-        Connection.execSql(request);
+        
     }
 
     get(req: Request, res: Response) {
@@ -123,15 +126,16 @@ class UserController {
 
         const { userName, passWord } = req.body;
         let row: String[] = [];
-        let id: Number;        
+        let id: Number;
+        let passwordHash: string;        
 
-        const request = new TediousRequest(`SELECT ID FROM USERS WHERE USERNAME = '${userName}' AND PASSWORD = ${passWord}`, (err: any, rowCount: Number) => {
+        const request = new TediousRequest(`SELECT ID, PASSWORD FROM USERS WHERE USERNAME = '${userName}'`, (err: any, rowCount: Number) => {
             if (err) {
                 res.status(400).json(err);
             }
             else {
 
-                if (rowCount > 0) {
+                if (bcrypt.compareSync(passWord, passwordHash)) {
                     const payload = { userName };
                     const token = jwt.sign(payload, secret, { expiresIn: '3h' });
                     res.cookie('token', token, { httpOnly: true });
@@ -144,7 +148,7 @@ class UserController {
                     });
                 }
                 else {
-                    res.status(200).json({
+                    return res.status(200).json({
                         status: 0,
                         auth: false,
                         id: null,
@@ -163,6 +167,7 @@ class UserController {
             })
 
             id = Number.parseInt(row[0].toString());
+            passwordHash = row[1].toString();
         });
 
         connection.execSql(request);
