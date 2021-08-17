@@ -30,7 +30,7 @@ class CostumerController {
         var row: String[] = [];
         var costumers: Costumer[] = [];
 
-        let request = new TediousRequest("SELECT * FROM COSTUMERS", (err: any, rowCount: any) => {
+        let request = new TediousRequest("SELECT ID, NAME, ADDRESS, TELEPHONE, OBSERVATION, INCLUSIONDATE FROM COSTUMERS", (err: any, rowCount: any) => {
             if (err) {
                 return res.status(400).json(err);
             }
@@ -47,7 +47,7 @@ class CostumerController {
                 row.push(column.value);
             });
 
-            const costumer = new Costumer(new Date(row[0].toString()), row[1], row[2], row[3], row[4])
+            const costumer = new Costumer(Number.parseInt(row[0].toString()), new Date(row[5].toString()), row[1], row[2], row[3], row[4])
             costumers.push(costumer);
 
         });
@@ -61,7 +61,7 @@ class CostumerController {
         var row: String[] = [];
         var costumer: Costumer[] = [];
 
-        let request = new TediousRequest(` SELECT * FROM COSTUMERS WHERE ID = ${_id}`, (err: any, rowCount: Number) => {
+        let request = new TediousRequest(` SELECT ID, NAME, ADDRESS, TELEPHONE, OBSERVATION, INCLUSIONDATE FROM COSTUMERS WHERE ID = ${_id}`, (err: any, rowCount: Number) => {
 
             if (err) {
                 return res.status(400).json(err);
@@ -77,7 +77,7 @@ class CostumerController {
                 row.push(column.value);
             });
 
-            costumer.push(new Costumer(new Date(row[0].toString()), row[1], row[2], row[3], row[4]));
+            costumer.push(new Costumer(Number.parseInt(row[0].toString()), new Date(row[5].toString()), row[1], row[2], row[3], row[4]));
         });
 
         Connection.execSql(request);
