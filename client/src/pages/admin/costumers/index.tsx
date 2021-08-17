@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function UsersList() {
+export default function CostumersList() {
 
     const classes = useStyles();
     const [load, setLoad] = useState<boolean>(false);
@@ -114,10 +114,10 @@ export default function UsersList() {
                                                                     <TableCell align="center">{new Date(row.date).toLocaleString('pt-br')}</TableCell>
                                                                     <TableCell align="right">
                                                                         <ButtonGroup color="secondary" aria-label="outlined secondary button group">
-                                                                            <Button color="primary" href={`/admin/users/edit/${row.id}`}>Edit</Button>
+                                                                            <Button color="primary" href={`/admin/costumers/edit/${row.id}`}>Edit</Button>
                                                                             <Button color="secondary" onClick={async () => {
                                                                                 if (window.confirm("Are you sure you want to delete this user?")) {
-                                                                                    const response: Response = await api.delete(`/user/${row.id}`);
+                                                                                    const response: Response = await api.delete(`/costumer/${row.id}`);
                                                                                     if (response.status === 200) {
                                                                                         window.location.reload();
                                                                                     }
