@@ -1,11 +1,11 @@
 export default class Costumer{
 
-    private id: Number;
-    private date: Date;
-    private name: String;    
-    private address: String;
-    private telephone: String;
-    private observation: String;
+    public id: Number;
+    public date: Date;
+    public name: String;    
+    public address: String;
+    public telephone: String;
+    public observation: String;
     
 
     constructor(id:Number, date: Date, name: String, address: String, telephone: String, observation: String){
