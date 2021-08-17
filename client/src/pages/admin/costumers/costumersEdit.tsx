@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
 
 export default () => {
     return(
         <div>
-        <h1> Products Register</h1>
+        <h1>Costumers Edit</h1>
     </div>
     )    
 }
+
