@@ -15,16 +15,11 @@ import UsersRegister from './pages/admin/users/userRegister';
 
 import Login from './pages/admin/login'
 
-//Imports from client
-import Home from './pages/client/home/index'; 
-import CostumersDetails from './pages/client/costumers/costumersDetails';
+
 function Routes() {    
     return(
         <BrowserRouter>
-            <Switch>
-                {/*Routes for client*/}              
-                <PrivateRoute path="/" exact component={Home} />
-                <PrivateRoute path="/costumers/:_id" exact component={CostumersDetails} />
+            <Switch>               
 
                 {/*Routs for admin*/}
                 <PrivateRoute path="/admin" exact component={Dashboard}/>
