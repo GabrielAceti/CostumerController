@@ -4,8 +4,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import api from '../services/api';
 import { getToken, logout } from '../services/auth';
@@ -21,15 +21,15 @@ export const mainListItems = (
     </ListItem>
     <ListItem button component="a" href="/admin/users">
       <ListItemIcon>
-        <PeopleIcon />
+        <SupervisedUserCircleIcon />
       </ListItemIcon>
       <ListItemText primary="Users" />
     </ListItem>
-    <ListItem button component="a" href="/admin/products">
+    <ListItem button component="a" href="/admin/costumers">
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Products" />
+      <ListItemText primary="Costumers" />
     </ListItem>    
   </div>
 );
